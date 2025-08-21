@@ -1,3 +1,5 @@
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import auth from "../firebase/firebase.init";
 
 const Register = () => {
     const handleSubmit = e => {
@@ -5,6 +7,15 @@ const Register = () => {
         const email = e.target.email.value;
         const password = e.target.password.value;
         console.log(email, password);
+
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(result => {
+                const loggedInUser = result.user;
+                console.log("🚀 ~ handleSubmit ~ loggedInUser:", loggedInUser)
+            })
+            .catch(error => {
+                console.error("Error creating user:", error);
+            })
     }
     return (
         <div className=" mx-auto w-96">
