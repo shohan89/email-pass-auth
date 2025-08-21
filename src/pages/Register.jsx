@@ -5,6 +5,7 @@ import auth from "../firebase/firebase.init";
 const Register = () => {
     const [registerError, setRegisterError] = useState('');
     const [registerSuccess, setRegisterSuccess] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
 
     // handle form submission
     const handleSubmit = e => {
@@ -16,6 +17,10 @@ const Register = () => {
         // check password strength
         if(password.length < 6){
             setRegisterError("Password should be at least 6 characters");
+            return;
+        }
+        else if(!/([A-Z])/.test(password)){
+            setRegisterError("Password should contain at least one uppercase letter");
             return;
         }
 
@@ -42,7 +47,13 @@ const Register = () => {
                 <input type="email" name="email" className="input" placeholder="Email" required />
 
                 <label className="label">Password</label>
-                <input type="password" name="password" className="input" placeholder="Password" required />
+                <input 
+                type={showPassword ? "text" : "password"} 
+                name="password" 
+                className="input" 
+                placeholder="Password" 
+                required />
+                <span onClick={()=> setShowPassword(!showPassword)}>Show</span>
 
                 <button className="btn btn-neutral mt-4">Register</button>
             </fieldset>
