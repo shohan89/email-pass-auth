@@ -1,8 +1,13 @@
+import { Outlet } from "react-router";
+import Nav from "../components/Nav";
 
 const Root = () => {
     return (
         <div>
-            <h2>This is main layout</h2>
+            <Nav />
+            <div className="container mx-auto p-4">
+                <Outlet />
+            </div>
         </div>
     );
 };
