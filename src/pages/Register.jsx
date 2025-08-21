@@ -1,20 +1,35 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useState } from "react";
 import auth from "../firebase/firebase.init";
 
 const Register = () => {
+    const [registerError, setRegisterError] = useState('');
+    const [registerSuccess, setRegisterSuccess] = useState('');
+
+    // handle form submission
     const handleSubmit = e => {
         e.preventDefault();
         const email = e.target.email.value;
         const password = e.target.password.value;
         console.log(email, password);
 
+        // check password strength
+        if(password.length < 6){
+            setRegisterError("Password should be at least 6 characters");
+            return;
+        }
+
+        setRegisterError(''); // reset error state on each render
+        setRegisterSuccess(''); // reset success state on each render
         createUserWithEmailAndPassword(auth, email, password)
             .then(result => {
                 const loggedInUser = result.user;
                 console.log("🚀 ~ handleSubmit ~ loggedInUser:", loggedInUser)
+                setRegisterSuccess("User Register Successfully!");
             })
             .catch(error => {
                 console.error("Error creating user:", error);
+                setRegisterError(error.message);
             })
     }
     return (
@@ -24,14 +39,20 @@ const Register = () => {
                 <legend className="fieldset-legend">Register</legend>
 
                 <label className="label">Email</label>
-                <input type="email" name="email" className="input" placeholder="Email" />
+                <input type="email" name="email" className="input" placeholder="Email" required />
 
                 <label className="label">Password</label>
-                <input type="password" name="password" className="input" placeholder="Password" />
+                <input type="password" name="password" className="input" placeholder="Password" required />
 
                 <button className="btn btn-neutral mt-4">Register</button>
             </fieldset>
             </form>
+            {
+                registerError && <p className="text-red-600 font-bold">{registerError}</p>
+            }
+            {
+                registerSuccess && <p className="text-green-600 font-bold">{registerSuccess}</p>
+            }
         </div>
     );
 };
