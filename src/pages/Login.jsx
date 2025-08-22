@@ -40,6 +40,9 @@ const Login = () => {
                 className="input" 
                 placeholder="Password" 
                 required />
+                <label className="label">
+                    <span className="label-text-alt link link-hover">Forget Password</span>
+                </label>
 
                 <button className="btn btn-neutral mt-4">Log In</button>
             </fieldset>
