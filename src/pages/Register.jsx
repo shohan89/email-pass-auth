@@ -50,6 +50,9 @@ const Register = () => {
                 .then(() => {
                     alert("Profile updated!")
                 })
+                .catch(error => {
+                    alert(error.message);
+                })
 
                 setRegisterSuccess("User Register Successfully!");
             })
