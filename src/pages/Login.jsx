@@ -1,5 +1,6 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
+import { Link } from "react-router";
 import auth from "../firebase/firebase.init";
 
 const Login = () => {
@@ -39,7 +40,6 @@ const Login = () => {
                 className="input" 
                 placeholder="Password" 
                 required />
-                <span>Show</span>
 
                 <button className="btn btn-neutral mt-4">Log In</button>
             </fieldset>
@@ -50,6 +50,7 @@ const Login = () => {
             {
                 loginSuccess && <p className="text-green-600 font-bold">{loginSuccess}</p>
             }
+            <p>New to this website? Please <Link className="text-violet-600" to='/register'>Register</Link></p>
         </div>
     );
 };
