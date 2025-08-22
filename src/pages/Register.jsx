@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth";
 import { useState } from "react";
 import { Link } from "react-router";
 import auth from "../firebase/firebase.init";
@@ -11,6 +11,7 @@ const Register = () => {
     // handle form submission
     const handleSubmit = e => {
         e.preventDefault();
+        const name = e.target.name.value;
         const email = e.target.email.value;
         const password = e.target.password.value;
         console.log(email, password);
@@ -40,6 +41,16 @@ const Register = () => {
                     .catch(error => {
                         alert("Error sending email verification: ", error);
                     })
+                
+                // update user profile
+                updateProfile(loggedInUser, {
+                    displayName: name,
+                    photoURL: 'https://example.com/jane-q-user/profile.jpg'
+                })
+                .then(() => {
+                    alert("Profile updated!")
+                })
+
                 setRegisterSuccess("User Register Successfully!");
             })
             .catch(error => {
@@ -53,6 +64,9 @@ const Register = () => {
                 <fieldset className="fieldset border-base-300 rounded-box w-xs border p-4">
                 <legend className="fieldset-legend">Register</legend>
 
+                <label className="label">Name</label>
+                <input type="text" name="name" className="input" placeholder="Name" required />
+                
                 <label className="label">Email</label>
                 <input type="email" name="email" className="input" placeholder="Email" required />
 
