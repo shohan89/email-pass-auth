@@ -10,6 +10,8 @@ const Login = () => {
         const email = e.target.email.value;
         const password = e.target.password.value;
 
+        setLogInError(''); // reset error state on each render
+        setLogInSuccess(''); // reset success state on each render
         signInWithEmailAndPassword(auth, email, password)
             .then(result => {
                 const loggedInUser = result.user;
