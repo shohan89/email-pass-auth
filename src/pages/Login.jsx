@@ -1,7 +1,10 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { useState } from "react";
 import auth from "../firebase/firebase.init";
 
 const Login = () => {
+    const [loginError, setLogInError] = useState('');
+    const [loginSuccess, setLogInSuccess] = useState('');
     const handleLogIn = e => {
         e.preventDefault();
         const email = e.target.email.value;
@@ -11,9 +14,11 @@ const Login = () => {
             .then(result => {
                 const loggedInUser = result.user;
                 console.log("🚀 ~ handleLogIn ~ loggedInUser:", loggedInUser)
+                setLogInSuccess("User Logged In Successfully!");
             })
             .catch(error => {
                 console.error("Error logging in:", error);
+                setLogInError(error.message);
             })
     }
     return (
@@ -37,6 +42,12 @@ const Login = () => {
                 <button className="btn btn-neutral mt-4">Log In</button>
             </fieldset>
             </form>
+            {
+                loginError && <p className="text-red-600 font-bold">{loginError}</p>
+            }
+            {
+                loginSuccess && <p className="text-green-600 font-bold">{loginSuccess}</p>
+            }
         </div>
     );
 };
